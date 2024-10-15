@@ -7,10 +7,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-        classpath 'org.jetbrains.dokka:dokka-gradle-plugin:1.4.32'
+        classpath 'com.android.tools.build:gradle:8.6.1'
     }
 }
 
@@ -27,9 +24,9 @@ task clean(type: Delete) {
 }
 
 ext {
-    compileSdkVersion = 29
+    compileSdkVersion = 34
 
-    minSdkVersion = 8
+    minSdkVersion = 29
     targetSdkVersion = 29
 
     versionCode = 3

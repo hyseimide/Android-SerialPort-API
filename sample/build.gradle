@@ -1,16 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    namespace "android.serialport.sample"
 
     defaultConfig {
+        compileSdk 34
         applicationId "android.serialport.sample"
-        minSdkVersion 15
+        minSdkVersion 29
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
         release {
@@ -22,11 +22,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    testImplementation 'junit:junit:4.13'
+
+    implementation 'androidx.appcompat:appcompat:1.7.0'
     //implementation project(':serialport')
     implementation 'com.licheedev:android-serialport:2.1.5'
 }
