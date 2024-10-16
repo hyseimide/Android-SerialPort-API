@@ -17,9 +17,11 @@
 package android.serialport.sample;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import android.os.Bundle;
+import android.util.Log;
 
 public class Sending01010101Activity extends SerialPortActivity {
 
@@ -30,8 +32,14 @@ public class Sending01010101Activity extends SerialPortActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sending01010101);
-        mBuffer = new byte[1024];
-        Arrays.fill(mBuffer, (byte) 0x55);
+//        mBuffer = new byte[1024];
+//        Arrays.fill(mBuffer, (byte) 0x55);
+//        mBuffer = new byte[] {
+//                (byte) 0x01, (byte) 0x05, (byte) 0x00, (byte) 0x02,
+//                (byte) 0xFF, (byte) 0x00, (byte) 0x2D, (byte) 0xFA
+//        };
+
+        mBuffer = Hex.hexStringToByteArray("010200000001B9CA");
         if (mSerialPort != null) {
             mSendingThread = new SendingThread();
             mSendingThread.start();
@@ -40,16 +48,19 @@ public class Sending01010101Activity extends SerialPortActivity {
 
     @Override
     protected void onDataReceived(byte[] buffer, int size) {
-        // ignore incoming data
+        Log.e("0101", "onDataReceived size = " + size + ", buffer = " + Hex.print(buffer, size) + ", time=" +System.currentTimeMillis());
     }
 
     private class SendingThread extends Thread {
+        private boolean sendFinish = false;
         @Override
         public void run() {
             while (!isInterrupted()) {
                 try {
-                    if (mOutputStream != null) {
+                    if (mOutputStream != null && !sendFinish) {
                         mOutputStream.write(mBuffer);
+                        sendFinish = true;
+                        Log.e("0101", "write to os mBuffer = " + Hex.print(mBuffer, 0) + ", time=" +System.currentTimeMillis());
                     } else {
                         return;
                     }
